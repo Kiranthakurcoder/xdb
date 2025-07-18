@@ -1,0 +1,396 @@
+apps.js///////////////////////////////////////////////////////////////////////
+
+
+// require("dotenv").config();  // Always first line hi rakho.
+
+// const express = require("express");
+// const cookieParser = require("cookie-parser");
+// const cors = require("cors");
+// const path = require("path");
+// const upload = require("./config/multerconfing");
+// const db = require("./config/mangodb-connection")  // db.js me bhi env use ho raha hoga.
+
+// const authR = require("./routes/authRoutes")
+// const postR = require("./routes/postRoutes")
+// const userR = require("./routes/userRoutes")
+
+// const app = express();
+// app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(cookieParser());
+// app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
+
+// app.use("/auth", authR);
+// app.use("/create", postR);
+// app.use("/admin", userR);
+
+// const PORT = 3000;
+// app.listen(PORT, () => {
+//   console.log(`Server running on address http://localhost:${PORT}`);
+// });
+
+
+
+
+
+
+
+
+
+
+
+
+// const cookieParser = require("cookie-parser");
+// const express = require("express");
+// const UserModel = require("./models/user");
+// const postModel = require("./models/post");
+// const bcrypt = require("bcrypt");
+// const upload = require("./config/multerconfing")
+// const cors = require("cors");
+
+
+// const path = require("path");
+// const crypto = require("crypto");
+// const jwt = require("jsonwebtoken");
+
+// const app = express();
+
+// app.use(cors()); 
+
+// app.set("view engine", "ejs");
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(express.static(path.join(__dirname, "public")));
+// app.use(cookieParser());
+
+
+
+// app.get("/profile/upload", (req, res) => {
+//   res.render("text");
+// });
+
+// app.post("/upload",isLogIn, upload.single("images") , async (req, res) => {
+//   const user = await UserModel.findOne({email : req.user.email})
+
+//   user.profilepic = req.file.filename
+
+//   await user.save()
+
+//   res.redirect("/profile")
+
+ 
+// });
+
+
+
+
+
+
+// // Home route
+// app.get("/", (req, res) => {
+//   res.render("index");
+// });
+
+// // Post creation route
+// app.post("/post", isLogIn, async (req, res) => {
+//   const { content } = req.body;
+//   const user = await UserModel.findOne({ email: req.user.email });
+
+//   const post = await postModel.create({
+//     user: user._id,
+//     content
+//   });
+
+//   user.posts.push(post._id);
+//   await user.save();
+
+//   res.redirect("/profile");
+// });
+
+// // Profile route
+// app.get("/profile", isLogIn, async (req, res) => {
+//   const user = await UserModel.findOne({ email: req.user.email }).populate("posts");
+//   console.log("Profile Data:", user);
+//   res.render("profile", { user });
+// });
+
+// // Like/unlike post
+// app.get("/like/:id", isLogIn, async (req, res) => {
+//   const post = await postModel.findOne({ _id: req.params.id }).populate("user");
+
+//   if (post.likes.indexOf(req.user.userid) === -1) {
+//     post.likes.push(req.user.userid);
+//   } else {
+//     post.likes.splice(post.likes.indexOf(req.user.userid), 1);
+//   }
+
+//   await post.save();
+//   res.redirect("/profile");
+// });
+
+// // Edit post route
+// app.get("/edit/:id", isLogIn, async (req, res) => {
+//   const post = await postModel.findOne({ _id: req.params.id }).populate("user");
+//   res.render("edit", { post });
+// });
+
+// // Update post route
+// app.post("/update/:id", isLogIn, async (req, res) => {
+//   await postModel.findOneAndUpdate({ _id: req.params.id }, { content: req.body.content });
+//   res.redirect("/profile");
+// });
+
+// // Delete post route
+// app.get("/delete/:id", isLogIn, async (req, res) => {
+//   await postModel.findOneAndDelete({ _id: req.params.id });
+//   res.redirect("/profile");
+// });
+
+// // Middleware for login verification
+// function isLogIn(req, res, next) {
+//   if (req.cookies.token === "") return res.redirect("/login");
+//   const data = jwt.verify(req.cookies.token, "shhhhhh");
+//   req.user = data;
+//   next();
+// }
+
+// // Login routes
+// app.get("/login", (req, res) => {
+//   res.render("login");
+// });
+
+// app.post("/login", async (req, res) => {
+//   const { password, email } = req.body;
+
+//   const user = await UserModel.findOne({ email });
+//   if (!user) return res.status(404).send("Something went wrong");
+
+//   bcrypt.compare(password, user.password, (err, result) => {
+//     if (result) {
+//       const token = jwt.sign({ email, userid: user._id }, "shhhhhh");
+//       res.cookie("token", token);
+//       res.status(200).redirect("/profile");
+//     } else {
+//       return res.redirect("/login");
+//     }
+//   });
+// });
+
+// app.get("/logout", (req, res) => {
+//   res.cookie("token", "");
+//   res.redirect("/login");
+// });
+
+// // Registration route
+// app.post("/register", async (req, res) => {
+//   const { name, username, email, password, age } = req.body;
+//   const user = await UserModel.findOne({ email });
+//   if (user) return res.status(500).send("Already registered");
+
+//   bcrypt.genSalt(10, (err, salt) => {
+//     bcrypt.hash(password, salt, async (err, hash) => {
+//       if (err) throw err;
+//       const user = await UserModel.create({
+//         name,
+//         username,
+//         email,
+//         age,
+//         password: hash
+//       });
+
+//       const token = jwt.sign({ email, userid: user._id }, "shhhhhh");
+//       res.cookie("token", token);
+//       res.send("Register");
+//     });
+//   });
+// });
+
+
+
+
+// const PORT = 3000;
+// app.listen(PORT, () => {
+//   console.log(`Server running on address http://localhost:${PORT}`);
+// });
+
+
+
+postmolde,/////////////////////////////////////////////////////////////////
+
+// (module.exports.postController = isLogIn),
+//   upload.single("image"),
+//   async (req, res) => {
+//     const { content } = req.body;
+//     const user = await UserModel.findOne({ email: req.user.email });
+//     const post = await postModel.create({
+//       user: user._id,
+//       content: content,
+//       image: req.file ? req.file.filename : null,
+//     });
+//     user.posts.push(post._id);
+//     await user.save();
+//     res.json({ success: true, message: "Post created with image" });
+//   };
+
+// (module.exports.commentController = isLogIn),
+//   async (req, res) => {
+//     const post = await postModel.findById(req.params.postid);
+//     if (!post)
+//       return res
+//         .status(404)
+//         .json({ success: false, message: "Post not found" });
+//     post.comments.push({
+//       user: req.user.userid,
+//       text: req.body.text,
+//     });
+//     await post.save();
+//     res.json({ success: true, message: "Comment added" });
+//   };
+
+// (module.exports.likeController = isLogIn),
+//   async (req, res) => {
+//     try {
+//       const post = await postModel.findById(req.params.id);
+//       if (!post)
+//         return res
+//           .status(404)
+//           .json({ success: false, message: "Post not found" });
+//       if (post.likes.includes(req.user.userid)) {
+//         post.likes = post.likes.filter(
+//           (uid) => uid.toString() !== req.user.userid
+//         );
+//       } else {
+//         post.likes.push(req.user.userid);
+//       }
+//       await post.save();
+//       res.json({ success: true, likes: post.likes.length });
+//     } catch (err) {
+//       console.error(err);
+//       res.status(500).json({ success: false, message: "Server error" });
+//     }
+//   };
+
+// (module.exports.deleteController = isLogIn),
+//   async (req, res) => {
+//     await postModel.findByIdAndDelete(req.params.id);
+//     res.json({ success: true, message: "Post deleted" });
+//   };
+
+// (module.exports.updateController = isLogIn),
+//   async (req, res) => {
+//     await postModel.findByIdAndUpdate(req.params.id, {
+//       content: req.body.content,
+//     });
+//     res.json({ success: true, message: "Post updated" });
+//   };
+
+  
+
+usecontroller///////////////////////////////////////
+
+
+// const UserModel = require("../models/user");
+
+// // Profile Picture Upload Controller
+// const uploadProfilePic = async (req, res) => {
+//   try {
+//     const user = await UserModel.findOne({ email: req.user.email });
+//     if (!user) return res.status(404).json({ success: false, message: "User not found" });
+
+//     user.profilepic = req.file.filename;
+//     await user.save();
+
+//     res.json({ success: true, message: "Profile picture updated" });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ success: false, message: "Something went wrong" });
+//   }
+// };
+
+// module.exports = {
+//   uploadProfilePic,
+// };
+
+
+
+useerrouter/////////////////////////////////////
+
+
+
+// const express = require("express");
+// const router = express.Router();
+// const isLogIn = require("../middlewares/isLogIn");
+// const upload = require("../config/multerconfing");
+
+// const { uploadProfilePic } = require("../controllers/userController");
+
+// // Yaha /upload ka route hai
+// router.post("/upload", isLogIn, upload.single("images"), uploadProfilePic);
+
+// module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

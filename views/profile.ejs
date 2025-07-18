@@ -1,0 +1,173 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2 {
+            color: #2e3a59;
+        }
+
+        .post-create {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .post-create form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-create textarea {
+            width: 100%;
+            height: 100px;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            color: #333;
+            resize: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .post-create textarea:focus {
+            border-color: #5b9bd5;
+            outline: none;
+        }
+
+        .post-create button {
+            background-color: #5b9bd5;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .post-create button:hover {
+            background-color: #4a89c0;
+        }
+
+        .post-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 15px;
+        }
+
+        .post-header {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2e3a59;
+            margin-bottom: 10px;
+        }
+
+        .post-content {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .post-actions a {
+            color: #5b9bd5;
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .post-actions a:hover {
+            background-color: #f1f1f1;
+            color: #2e3a59;
+        }
+
+        .post-actions small {
+            color: #777;
+        }
+
+        .no-posts {
+            text-align: center;
+            font-size: 18px;
+            color: #555;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            margin: 20px auto;
+            max-width: 800px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div style="height: 56px; width:56px ; border-radius: 5px; background-position: center; background-size: cover; ">
+       <a href="/profile/upload"><img style="height: 56px; width: 56px; border-radius: 5px; object-fit: cover;" src="/<%= user.profilepic %>" alt=""></a> 
+
+        <!-- <img style="height: 56px; width:56px ; border-radius: 5px; background-position: center; background-size: cover; src="/public/<%=user.profilepic %>" alt=""> -->
+    </div>
+
+   
+
+    <div class="post-create">
+        <form action="/post" method="POST">
+            <textarea name="content" placeholder="Write your post here..." required></textarea>
+            <button type="submit">Submit Post</button>
+        </form>
+    </div>
+
+    
+    
+    <% if (user.posts && user.posts.length > 0) { %>
+        <% user.posts.reverse().forEach(function (post) { %>
+            <div class="post-container">
+                <div style="color: blue;" class="post-header">@<%= user.username %></div>
+                <p class="post-content"><%= post.content || 'No content available.' %></p>
+                <div class="post-actions">
+                    <small style="margin-right: 6px;"><%= post.likes.length %> likes</small>
+                    <a href="/like/<%= post._id %>">
+                        <%= post.likes.indexOf(user._id) === -1 ? "Like" : "Unlike" %>
+                    </a>
+                    <a href="/edit/<%= post._id %>">Edit</a>
+                    <a href="/delete/<%= post._id %>">Delete</a>
+                </div>
+            </div>
+        <% }) %>
+    <% } else { %>
+        <div class="no-posts">
+            <p>No posts available yet. Start by creating your first post!</p>
+        </div>
+    <% } %>
+
+</body>
+</html>
