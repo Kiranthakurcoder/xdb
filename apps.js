@@ -1,3 +1,49 @@
+// require("dotenv").config();
+
+// // ------------------- Imports -------------------
+// const express = require("express");
+// const cookieParser = require("cookie-parser");
+// const cors = require("cors");
+// const path = require("path");
+// const upload = require("./config/multerconfing");
+// const db = require("./config/mangodb-connection");
+
+
+
+// app.use(cors({
+//     origin: "https://tera-frontend-url.onrender.com",  // React ka URL
+//     credentials: true
+// }));
+
+
+// // ------------------- Routes -------------------
+// const authR = require("./routes/authRoutes");
+// const postR = require("./routes/postRoutes");
+// const userR = require("./routes/userRoutes");
+
+// // ------------------- App Init -------------------
+// const app = express();
+// app.use(cors({ credentials: true, origin: "https://mediax-frontend.onrender.com" }));
+// // app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use(cookieParser());
+// app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
+
+
+// // ------------------- Routes Apply -------------------
+// app.use("/auth", authR);
+// app.use("/create", postR);
+// app.use("/admin", userR);
+
+// // ------------------- Start Server -------------------
+// const PORT = 3000;
+// app.listen(PORT, () => {
+//   console.log(`Server running on address http://localhost:${PORT}`);
+// });
+
+
+
 require("dotenv").config();
 
 // ------------------- Imports -------------------
@@ -8,18 +54,23 @@ const path = require("path");
 const upload = require("./config/multerconfing");
 const db = require("./config/mangodb-connection");
 
-// ------------------- Routes -------------------
-const authR = require("./routes/authRoutes");
-const postR = require("./routes/postRoutes");
-const userR = require("./routes/userRoutes");
-
 // ------------------- App Init -------------------
-const app = express();
-app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+const app = express();   
+
+// ------------------- Middlewares -------------------
+app.use(cors({
+    origin: "https://mediax-frontend.onrender.com", 
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
+
+// ------------------- Routes -------------------
+const authR = require("./routes/authRoutes");
+const postR = require("./routes/postRoutes");
+const userR = require("./routes/userRoutes");
 
 // ------------------- Routes Apply -------------------
 app.use("/auth", authR);
@@ -29,5 +80,5 @@ app.use("/admin", userR);
 // ------------------- Start Server -------------------
 const PORT = 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on address http://localhost:${PORT}`);
+    console.log(`Server running on address http://localhost:${PORT}`);
 });
