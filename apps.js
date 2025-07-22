@@ -56,7 +56,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://illustrious-florentine-404b6f.netlify.app/"
+      "https://illustrious-florentine-404b6f.netlify.app/",
+      "https://xweb-78sdk5pb0-kiranthakurcoders-projects.vercel.app/"
     ],
     credentials: true,
   })
