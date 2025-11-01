@@ -16,22 +16,22 @@ const post = async (req, res) => {
   }
 };
 
-// const uploadProfilePic = async (req, res) => {
-//   const user = await UserModel.findOne({ email: req.user.email });
-//   user.profilepic = req.file.filename;
-//   await user.save();
-//   res.json({ success: true, message: "Profile picture updated" });
-// };
-
 const uploadProfilePic = async (req, res) => {
   const user = await UserModel.findOne({ email: req.user.email });
-
-  // Cloudinary ke response me URL milta hai:
-  user.profilepic = req.file.path;  // 👈 filename ki jagah path likho
-
+  user.profilepic = req.file.filename;
   await user.save();
   res.json({ success: true, message: "Profile picture updated" });
 };
+
+// const uploadProfilePic = async (req, res) => {
+//   const user = await UserModel.findOne({ email: req.user.email });
+
+//   // Cloudinary ke response me URL milta hai:
+//   user.profilepic = req.file.path;  // 👈 filename ki jagah path likho
+
+//   await user.save();
+//   res.json({ success: true, message: "Profile picture updated" });
+// };
 
 
 module.exports = {
