@@ -1,0 +1,94 @@
+multer/////////////////////////
+
+// const mongoose = require('mongoose');
+// const config = require("config")
+
+// mongoose
+// .connect(`${config.get("MONGODB_URI")}`)
+// .then(()=>{console.log("connected")})
+// .catch((err)=> console.log("oops somthing eorry"))
+
+// module.exports =mongoose.Connection;
+
+
+
+// const cloudinary = require("../utils/cloudinary");
+
+// const uploadPost = async (req, res) => {
+//   try {
+//     const file = req.file;
+
+//     if (!file) {
+//       return res.status(400).json({ message: "No file uploaded" });
+//     }
+
+//     const base64Image = `data:${file.mimetype};base64,${file.buffer.toString('base64')}`;
+
+//     const result = await cloudinary.uploader.upload(base64Image, {
+//       folder: "posts",
+//     });
+
+//     res.status(200).json({
+//       message: "Uploaded",
+//       url: result.secure_url,
+//     });
+//   } catch (err) {
+//     console.error("Upload error:", err);
+//     res.status(500).json({ message: "Upload failed" });
+//   }
+// };
+
+
+
+postcontrller.sj/////////////////////////////
+
+
+
+// const UserModel = require("../models/user");
+// const postModel = require("../models/post");
+// const { cloudinary } = require("../utils/cloudinary"); // ✅ Cloudinary import
+
+// // ✅ CREATE POST (with optional image upload)
+// const createPost = async (req, res) => {
+//   try {
+//     const { content } = req.body;
+//     const user = await UserModel.findOne({ email: req.user.email });
+
+//     let imageUrl = null;
+
+//     // ✅ Agar image aayi hai to cloudinary pe upload karo
+//     if (req.file) {
+//       const result = await cloudinary.uploader.upload(req.file.path, {
+//         folder: "posts", // ✅ Cloudinary ke andar 'posts' folder
+//       });
+//       imageUrl = result.secure_url;
+//     }
+
+//     const post = await postModel.create({
+//       user: user._id,
+//       content,
+//       image: imageUrl, // ✅ Image URL store karo
+//     });
+
+//     user.posts.push(post._id);
+//     await user.save();
+
+//     res.json({ success: true, message: "Post created with image", post });
+//   } catch (err) {
+//     res.status(500).json({ success: false, message: "Error creating post", error: err.message });
+//   }
+// };
+
+// // Baaki functions unchanged
+// const commentPost = async () => {};
+// const likePost = async () => {};
+// const deletePost = async () => {};
+// const updatePost = async () => {};
+
+// module.exports = {
+//   createPost,
+//   commentPost,
+//   likePost,
+//   deletePost,
+//   updatePost,
+// };
